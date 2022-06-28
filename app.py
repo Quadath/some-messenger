@@ -1,4 +1,4 @@
-from aioflask import Flask, request, send_file
+from aioflask import Flask, request, send_file, jsonify
 import os
 import json
 
@@ -23,5 +23,10 @@ async def index():
 @app.route("/script",  methods=['GET'])
 async def script():
 	return send_file("index.js")
+
+@app.route("/data", methods=['GET'])
+async def data():
+    db = open('database/db.json')
+    return jsonify(db.read())
 app.run(host="0.0.0.0", port=5000)
     
