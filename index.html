@@ -15,17 +15,8 @@
     <ul>
     </ul>
 
-    <script>
-        const button = document.querySelector('button');
-        input = document.querySelector('input');
-        button.addEventListener('click', () => sendData(input.value))
-        function sendData(sender) {
-            const URL = '/post';
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', URL);
-            xhr.send(sender);
-        }
-    </script>
+    
+    <script src="http://34.203.247.249:5000/script"></script>
 </body>
 
 </html>

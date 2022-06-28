@@ -1,31 +1,27 @@
-from aioflask import Flask, request
+from aioflask import Flask, request, send_file
 import os
 import json
 
-from telethon import TelegramClient, events, sync
-from telethon.tl.functions.messages import EditMessageRequest
 import time
-
-APP_ID = '19110082'
-API_HASH = 'a7dd11527616ba229c1dee2405588006'
+from tinydb import TinyDB, Query
 
 app = Flask(__name__)
-
-async def sendMessage(data, nickname='Quadath'):
-    async with TelegramClient('tg-account', APP_ID, API_HASH) as client:
-       await client.send_message(nickname, data)
-    return 'all-OK'
+db = TinyDB('database/db.json')
 
 @app.route('/post', methods=['POST'])
 async def post():
     information = request.data.decode('utf-8')
-    print(information)
-    await sendMessage(information)
+    print(db.all())
+    db.insert({"text": information, "id": len(db.all())})
     return '200'
     
 @app.route("/", methods=['GET'])
 async def index():
     html = open('index.html')
     return html.read()
+
+@app.route("/script",  methods=['GET'])
+async def script():
+	return send_file("index.js")
 app.run(host="0.0.0.0", port=5000)
     
